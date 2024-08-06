@@ -1,18 +1,15 @@
 import os
-import json
+import csv
 
-#User Class that sets username and Users Music_Collection class
 class User:
     def __init__(self, username):
         self.user = username
         self.music_collection = Music_Collection()
 
-#Music_Collection class with methods for Users playlist
 class Music_Collection:
     def __init__(self):
         self.playlist = {}
 
-    #User adds song with some condtions
     def add_song(self, title, artist):
         """
         Adds a song to the playlist.
@@ -23,37 +20,43 @@ class Music_Collection:
 
         >>> mc = Music_Collection()
         >>> mc.add_song("Judas", "Lady Gaga")
-        Judas by Lady Gaga was added to your playlist.
+        'Judas by Lady Gaga was added to your playlist.'
         >>> mc.add_song("Judas", "Lady Gaga")
-        Song Judas is already in your playlist.
+        'Song Judas is already in your playlist.'
+        >>> mc.add_song("", "")
+        'Invalid input. Title and artist cannot be empty.'
         """
+        if not title or not artist:
+            return "Invalid input. Title and artist cannot be empty."
         if title in self.playlist:
-            print(f"Song {title} is already in your playlist.")
-        else:
-            self.playlist[title] = artist
-            print(f"{title} by {artist} was added to your playlist.")
+            return f"Song {title} is already in your playlist."
+        self.playlist[title] = artist
+        return f"{title} by {artist} was added to your playlist."
 
-    #User deletes song with some condtions
     def delete_song(self, title):
         """
-        Deletes a song to the playlist.
+        Deletes a song from the playlist.
 
         Args:
             title (str): The title of the song
 
         >>> mc = Music_Collection()
+        >>> mc.add_song("Judas", "Lady Gaga")
+        'Judas by Lady Gaga was added to your playlist.'
         >>> mc.delete_song("Judas")
-        Judas was deleted from your playlist.
+        'Judas was deleted from your playlist.'
         >>> mc.delete_song("Judas")
-        Judas does not exist in your playlist.
+        'Judas does not exist in your playlist.'
+        >>> mc.delete_song("")
+        'Invalid input. Title cannot be empty.'
         """
+        if not title:
+            return "Invalid input. Title cannot be empty."
         if title not in self.playlist:
-            print(f"{title} does not exist in your playlist.")
-        else:
-            del self.playlist[title]
-            print(f"{title} was deleted from your playlist.")
+            return f"{title} does not exist in your playlist."
+        del self.playlist[title]
+        return f"{title} was deleted from your playlist."
 
-    #User gets song details with some condtions
     def get_song_details(self, title):
         """
         Gets song details from playlist.
@@ -62,329 +65,289 @@ class Music_Collection:
             title (str): The title of the song
 
         >>> mc = Music_Collection()
+        >>> mc.add_song("Judas", "Lady Gaga")
+        'Judas by Lady Gaga was added to your playlist.'
         >>> mc.get_song_details("Judas")
-        Judas is by Lady Gaga.
-        >>> mc.get_song_details("Judas")
-        Judas does not exist in your playlist.
+        'Judas is by Lady Gaga.'
+        >>> mc.get_song_details("Bad Romance")
+        'Bad Romance does not exist in your playlist.'
         """
         artist = self.playlist.get(title)
         if artist:
-            print(f"{title} is by {artist}.")
+            return f"{title} is by {artist}."
         else:
-            print(f"{title} does not exist in your playlist.")
+            return f"{title} does not exist in your playlist."
 
-    #User updates song details with some condtions
     def update_song_details(self, title, new_artist):
         """
-        Updates song details from playlist.
+        Updates song details in playlist.
 
         Args:
             title (str): The title of the song
             new_artist (str): The updated artist of the song
 
         >>> mc = Music_Collection()
+        >>> mc.add_song("Judas", "Lady Gaga")
+        'Judas by Lady Gaga was added to your playlist.'
         >>> mc.update_song_details("Judas", "Linkin Park")
-        Updated Judas to be by Linkin Park.
-        >>> mc.update_song_details("Judas", "Linkin Park")
-        Judas does not exist in your playlist.
+        'Updated Judas to be by Linkin Park.'
+        >>> mc.update_song_details("Bad Romance", "Lady Gaga")
+        'Bad Romance does not exist in your playlist.'
         """
         if title in self.playlist:
             self.playlist[title] = new_artist
-            print(f"Updated {title} to be by {new_artist}.")
+            return f"Updated {title} to be by {new_artist}."
         else:
-            print(f"{title} does not exist in your playlist.")
+            return f"{title} does not exist in your playlist."
 
-    #User displays all songs with some condtions
     def display_all_songs(self):
         """
         Display all songs from playlist.
 
         >>> mc = Music_Collection()
-        >>> mc.display_all_songs()
-        These are your current songs in your playlist:
-        Judas by Lady Gaga
-        >>> mc.display_all_songs()
-        You currently have no songs in your playlist.
-        """
-        if not self.playlist:
-            print(f"You currently have no songs in your playlist.")
-        else:
-            print("These are your current songs in your playlist:")
-            for title, artist in self.playlist.items():
-                print(f"{title} by {artist}")
-
-    def load_playlist(self, filename):
-        """
-        Loads the playlist from a JSON file.
-        
-        Args:
-            filename (str): The name of the file to load the playlist from.
-
-        >>> import tempfile
-        >>> with tempfile.NamedTemporaryFile(mode='w', delete=False) as tf:
-        ...     tf.write('{"Judas": "Lady Gaga"}')
-        ...     temp_filename = tf.name
-        >>> mc = Music_Collection()
-        >>> mc.load_playlist(temp_filename)
-        >>> mc.playlist
-        {'Judas': 'Lady Gaga'}
-        >>> import os
-        >>> os.unlink(temp_filename)
-        >>> mc.load_playlist("non_existent_file.json")
-        'File non_existent_file.json not found. Starting with an empty playlist.'
-        """
-        try:
-            with open(filename, 'r') as file:
-                self.playlist = json.load(file)
-        except FileNotFoundError:
-            return f"File {filename} not found. Starting with an empty playlist."
-        except json.JSONDecodeError:
-            return f"File {filename} is not a valid JSON file. Starting with an empty playlist."
-
-    def save_playlist(self, filename):
-        """
-        Saves the playlist to a JSON file.
-        
-        Args:
-            filename (str): The name of the file to save the playlist to.
-
-        >>> import tempfile
-        >>> import os
-        >>> mc = Music_Collection()
         >>> mc.add_song("Judas", "Lady Gaga")
         'Judas by Lady Gaga was added to your playlist.'
-        >>> with tempfile.NamedTemporaryFile(mode='w', delete=False) as tf:
-        ...     temp_filename = tf.name
-        >>> mc.save_playlist(temp_filename)
-        >>> with open(temp_filename, 'r') as f:
-        ...     saved_content = f.read()
-        >>> saved_content
-        '{"Judas": "Lady Gaga"}'
-        >>> os.unlink(temp_filename)
+        >>> mc.add_song("In the End", "Linkin Park")
+        'In the End by Linkin Park was added to your playlist.'
+        >>> mc.display_all_songs()
+        'These are your current songs in your playlist:\\nJudas by Lady Gaga\\nIn the End by Linkin Park'
+        >>> mc = Music_Collection()
+        >>> mc.display_all_songs()
+        'You currently have no songs in your playlist.'
         """
-        try:
-            with open(filename, 'w') as file:
-                json.dump(self.playlist, file)
-        except IOError:
-            return f"Error writing to file {filename}."
+        if not self.playlist:
+            return "You currently have no songs in your playlist."
+        else:
+            songs = [f"{title} by {artist}" for title, artist in self.playlist.items()]
+            return "These are your current songs in your playlist:\n" + "\n".join(songs)
 
-#Music_Collection_Organizer Class which contains all User data and playlist data
 class Music_Collection_Organizer:
     def __init__(self):
         self.users = {}
         self.current_user = None
+        self.users_file = "users.csv"
+        self.playlists_file = "playlists.csv"
+        self.load_users_and_playlists()
 
-    #Creates User with some conditions
+    def load_users_and_playlists(self):
+        """
+        Loads users and their playlists from CSV files.
+        """
+        self.load_users()
+        self.load_playlists()
+
+    def load_users(self):
+        """
+        Loads users from the users CSV file.
+        """
+        try:
+            with open(self.users_file, 'r', newline='') as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    username = row[0]
+                    self.users[username] = User(username)
+        except FileNotFoundError:
+            print(f"Users file not found. Starting with an empty user list.")
+
+    def load_playlists(self):
+        """
+        Loads playlists for all users from the playlists CSV file.
+        """
+        try:
+            with open(self.playlists_file, 'r', newline='') as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    username, title, artist = row
+                    if username in self.users:
+                        self.users[username].music_collection.playlist[title] = artist
+        except FileNotFoundError:
+            print(f"Playlists file not found. Starting with empty playlists.")
+
+    def save_users_and_playlists(self):
+        """
+        Saves all users and their playlists to CSV files.
+        """
+        self.save_users()
+        self.save_playlists()
+
+    def save_users(self):
+        """
+        Saves all users to the users CSV file.
+        """
+        with open(self.users_file, 'w', newline='') as file:
+            writer = csv.writer(file)
+            for username in self.users:
+                writer.writerow([username])
+
+    def save_playlists(self):
+        """
+        Saves playlists for all users to the playlists CSV file.
+        """
+        with open(self.playlists_file, 'w', newline='') as file:
+            writer = csv.writer(file)
+            for username, user in self.users.items():
+                for title, artist in user.music_collection.playlist.items():
+                    writer.writerow([username, title, artist])
+
     def add_user(self, name):
         """
         Create new User and add to Users list.
 
         >>> mco = Music_Collection_Organizer()
         >>> mco.add_user("Cal")
-        User Cal created and set as the current user.
+        'User Cal created and set as the current user.'
         >>> mco.add_user("Cal")
-        User Cal already exists.
+        'User Cal already exists.'
         """
         if name in self.users:
-            print(f"User {name} already exists.")
+            return f"User {name} already exists."
         else:
             self.users[name] = User(name)
             self.current_user = self.users[name]
-            self.load_user_playlist(name)
-            print(f"User {name} created and set as the current user.")
+            self.save_users_and_playlists()
+            return f"User {name} created and set as the current user."
 
-    #Changes User with some conditions
     def change_user(self, name):
         """
         Change User from Users list.
 
         >>> mco = Music_Collection_Organizer()
-        >>> mco.change_user("Al")
-        Changed to user 'Al'.
-        >>> mco.change_user("Zach")
-        User Zach does not exist.
+        >>> mco.add_user("Cal")
+        'User Cal created and set as the current user.'
+        >>> mco.add_user("Al")
+        'User Al created and set as the current user.'
         >>> mco.change_user("Cal")
-        You're already logged in as this User.
+        'Changed to user Cal.'
+        >>> mco.change_user("Zach")
+        'User Zach does not exist.'
+        >>> mco.change_user("Al")
+        "You're already logged in as this User."
         """
         if self.current_user and self.current_user.user == name:
-            print(f"You're already logged in as this User.")
+            return "You're already logged in as this User."
         elif name in self.users:
-            self.save_user_playlist(self.current_user.user)
             self.current_user = self.users[name]
-            print(f"Changed to user '{name}'.")
+            return f"Changed to user '{name}'."
         else:
-            print(f"User {name} does not exist.")
+            return f"User {name} does not exist."
 
-    #Adds song based off of User with some conditions
     def add_song(self, title, artist):
         """
         Adds a song to the current user's playlist.
 
         >>> mco = Music_Collection_Organizer()
         >>> mco.add_user("Cal")
-        User Cal created and set as the current user.
+        'User Cal created and set as the current user.'
         >>> mco.add_song("Imagine", "John Lennon")
-        Imagine by John Lennon was added to your playlist.
-        >>> mco.change_user("Bob")
-        User Bob does not exist.
+        'Imagine by John Lennon was added to your playlist.'
         >>> mco.add_user("Bob")
-        User Bob created and set as the current user.
+        'User Bob created and set as the current user.'
         >>> mco.add_song("Hey Jude", "The Beatles")
-        Hey Jude by The Beatles was added to your playlist.
+        'Hey Jude by The Beatles was added to your playlist.'
         """
         if self.current_user:
-            self.current_user.music_collection.add_song(title, artist)
+            result = self.current_user.music_collection.add_song(title, artist)
+            self.save_playlists()
+            return result
         else:
-            print("No user selected. Please change to a user first.")
+            return "No user selected. Please change to a user first."
 
-    #Retrieves song details based off of User with some conditions
     def retrieve_song_details(self, title):
         """
         Retrieves song details from the current user's playlist.
 
         >>> mco = Music_Collection_Organizer()
         >>> mco.add_user("Cal")
-        User Cal created and set as the current user.
+        'User Cal created and set as the current user.'
         >>> mco.add_song("Imagine", "John Lennon")
-        Imagine by John Lennon was added to your playlist.
+        'Imagine by John Lennon was added to your playlist.'
         >>> mco.retrieve_song_details("Imagine")
-        Imagine is by John Lennon.
+        'Imagine is by John Lennon.'
         >>> mco.retrieve_song_details("Hey Jude")
-        Hey Jude does not exist in your playlist.
+        'Hey Jude does not exist in your playlist.'
         """
         if self.current_user:
-            self.current_user.music_collection.get_song_details(title)
+            return self.current_user.music_collection.get_song_details(title)
         else:
-            print("No user selected. Please change to a user first.")
+            return "No user selected. Please change to a user first."
 
-    #Updates song details based off of User with some conditions
     def update_song_details(self, title, new_artist):
         """
         Updates song details in the current user's playlist.
 
         >>> mco = Music_Collection_Organizer()
         >>> mco.add_user("Cal")
-        User Cal created and set as the current user.
+        'User Cal created and set as the current user.'
         >>> mco.add_song("Imagine", "John Lennon")
-        Imagine by John Lennon was added to your playlist.
+        'Imagine by John Lennon was added to your playlist.'
         >>> mco.update_song_details("Imagine", "The Beatles")
-        Updated Imagine to be by The Beatles.
+        'Updated Imagine to be by The Beatles.'
         >>> mco.update_song_details("Hey Jude", "The Beatles")
-        Hey Jude does not exist in your playlist.
+        'Hey Jude does not exist in your playlist.'
         """
         if self.current_user:
-            self.current_user.music_collection.update_song_details(title, new_artist)
+            result = self.current_user.music_collection.update_song_details(title, new_artist)
+            self.save_playlists()
+            return result
         else:
-            print("No user selected. Please change to a user first.")
+            return "No user selected. Please change to a user first."
 
-    #Deletes songs based off of User with some conditions
     def delete_song(self, title):
         """
         Deletes a song from the current user's playlist.
 
         >>> mco = Music_Collection_Organizer()
         >>> mco.add_user("Cal")
-        User Cal created and set as the current user.
+        'User Cal created and set as the current user.'
         >>> mco.add_song("Imagine", "John Lennon")
-        Imagine by John Lennon was added to your playlist.
+        'Imagine by John Lennon was added to your playlist.'
         >>> mco.delete_song("Imagine")
-        Imagine was deleted from your playlist.
+        'Imagine was deleted from your playlist.'
         >>> mco.delete_song("Imagine")
-        Imagine does not exist in your playlist.
+        'Imagine does not exist in your playlist.'
         """
         if self.current_user:
-            self.current_user.music_collection.delete_song(title)
+            result = self.current_user.music_collection.delete_song(title)
+            self.save_playlists()
+            return result
         else:
-            print("No user selected. Please change to a user first.")
+            return "No user selected. Please change to a user first."
 
-    #Displays all songs based off of User with some conditions
     def display_all_songs(self):
         """
         Displays all songs in the current user's playlist.
 
         >>> mco = Music_Collection_Organizer()
         >>> mco.add_user("Cal")
-        User Cal created and set as the current user.
+        'User Cal created and set as the current user.'
         >>> mco.add_song("Imagine", "John Lennon")
-        Imagine by John Lennon was added to your playlist.
-        >>> mco.add_song("Given Up", "Linkin Park")
-        Given Up by Linkin Park was added to your playlist.
-        >>> mco.add_song("Judas", "Lady Gaga")
-        Judas by Lady Gaga was added to your playlist.
+        'Imagine by John Lennon was added to your playlist.'
+        >>> mco.add_song("Hey Jude", "The Beatles")
+        'Hey Jude by The Beatles was added to your playlist.'
         >>> mco.display_all_songs()
-        These are your current songs in your playlist:
-        Imagine by John Lennon
-        Given Up by Linkin Park
-        Judas by Lady Gaga
+        'These are your current songs in your playlist:\\nImagine by John Lennon\\nHey Jude by The Beatles'
         """
         if self.current_user:
-            self.current_user.music_collection.display_all_songs()
+            return self.current_user.music_collection.display_all_songs()
         else:
-            print("No user selected. Please change to a user first.")
-    
-    def save_user_playlist(self, username):
-        """
-        Saves the current user's playlist to a JSON file.
-
-        Args:
-            username (str): The username of the current user.
-        
-        >>> mco = Music_Collection_Organizer()
-        >>> mco.add_user("TestUser")
-        'User TestUser created and set as the current user.'
-        >>> mco.add_song("Judas", "Lady Gaga")
-        'Judas by Lady Gaga was added to your playlist.'
-        >>> mco.save_user_playlist("TestUser")
-        >>> import os
-        >>> os.path.exists("TestUser_playlist.json")
-        True
-        >>> os.unlink("TestUser_playlist.json")
-        """
-        filename = f"{username}_playlist.json"
-        return self.users[username].music_collection.save_playlist(filename)
-
-    def load_user_playlist(self, username):
-        """
-        Loads the current user's playlist from a JSON file.
-
-        Args:
-            username (str): The username of the current user.
-        
-        >>> import tempfile
-        >>> with tempfile.NamedTemporaryFile(mode='w', delete=False) as tf:
-        ...     tf.write('{"Judas": "Lady Gaga"}')
-        ...     temp_filename = tf.name
-        >>> import os
-        >>> os.rename(temp_filename, "TestUser_playlist.json")
-        >>> mco = Music_Collection_Organizer()
-        >>> mco.add_user("TestUser")
-        'User TestUser created and set as the current user.'
-        >>> mco.load_user_playlist("TestUser")
-        >>> mco.current_user.music_collection.playlist
-        {'Judas': 'Lady Gaga'}
-        >>> os.unlink("TestUser_playlist.json")
-        """
-        filename = f"{username}_playlist.json"
-        return self.users[username].music_collection.load_playlist(filename)
+            return "No user selected. Please change to a user first."
 
 def main():
     #Initiates Music_Collection_Organizer class
     organizer = Music_Collection_Organizer()
     while True:
         #Starts program by first creating a user
-        if not organizer.current_user:
-            print('Please create a user to use the Music Collection')
-            username = input("Enter username: ").strip()
-            if len(username) == 0 :
-                print("Please input a valid username.")
-            else: 
-                organizer.add_user(username)
-        else:            
-            # Check if playlist is empty before showing update options
-            playlist = organizer.current_user.music_collection.playlist
-            user_list = organizer.users
-            print("\nOptions (You can input the numbers for a shorter input): \n 1: add_user, \n 2: change_user, \n 3: add_song, \n 4: retrieve_song_details, \n 5: update_song_details, \n 6: delete_song, \n 7: display_all_songs, \n 8: quit")
-            option = input("Choose an option: ").strip().lower()
+            if not organizer.current_user:
+                print('Please create a user to use the Music Collection')
+                username = input("Enter username: ").strip()
+                if len(username) == 0:
+                    print("Please input a valid username.")
+                else: 
+                    result = organizer.add_user(username)
+                    print(result)
+            else:            
+                print("\nOptions (You can input the numbers for a shorter input): \n 1: add_user, \n 2: change_user, \n 3: add_song, \n 4: retrieve_song_details, \n 5: update_song_details, \n 6: delete_song, \n 7: display_all_songs, \n 8: quit")
+                option = input("Choose an option: ").strip().lower()
 
             # Created to allow user input shortcut by using integers
             if option.isdigit():
