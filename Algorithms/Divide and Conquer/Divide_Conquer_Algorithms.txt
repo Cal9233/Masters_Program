@@ -1,0 +1,40 @@
+### Brute Force Algorithms
+If there is an array of 1000 elements and you search through every element looking for a specific way, this would be classified as a Brute Force Algorithm.
+Which delivers a time complexity of O(n) - linear
+
+### Recursive Algorithms
+To find a number in a sorted array you can use the Binary Search method.
+Binary Search method grabs the middle element and divides the array into two sub arrays.
+It uses the middle element as a comparison to the specific element you are searching for, if its greater than middle element it will
+look at the greater subarray and select the middle element as the new comparer, same applies if specific searched element is lesser. It keeps
+doing this until specific searched element is found.
+Often delivers a time complexity of O(log n) - O(n log n)
+
+## Three kinds of natures to divide and conquer behavior
+# Decrease - and - conquer
+Breaking the problem into a smaller one until the solution is trivial
+
+# Divide - and - conquer
+Dividing the problem into subproblems that can be dealt more easily
+
+# Transform - and - conquer
+Modifying the problem to a more amenable form to a particular solution
+
+
+
+
+### Transform and conquer
+It has three varients
+
+# Instance Simplification
+Transform to a simpler or more convenient
+instance of the same problem
+
+# Representation Change
+t remains the same instance, but in a
+different representation
+
+# Problem Reduction
+Transform to an instance of a different
+problem for which a solution is already
+available
