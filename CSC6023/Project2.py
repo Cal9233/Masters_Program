@@ -154,36 +154,33 @@ class AVLTree(object):
             print(currPtr.data)
             self.printHelper(currPtr.left, indent, False)
             self.printHelper(currPtr.right, indent, True)
-    # Task 3 function
-    def printPostOrderTraversal(self, root):
-        if not root:
-            return
-        self.printPostOrderTraversal(root.left)
-        self.printPostOrderTraversal(root.right)
-        print(root.data, end=" ")
 
 def main():
     myTree = AVLTree()
     root = None
-    nums = [33, 13, 52, 9, 21, 61, 8, 11]
-    for num in nums:
-        root = myTree.insert_node(root, num)
-    myTree.printHelper(root, "", True)
-    data = 13
-    root = myTree.delete_node(root, data)
-    print("After Deletion of {}: ".format(data))
-    myTree.printHelper(root, "", True)
-    data = 27
-    root = myTree.insert_node(root, data)
-    print("After Insertion of {}: ".format(data))
-    myTree.printHelper(root, "", True)
-    data = 17
-    root = myTree.insert_node(root, data)
-    print("After Insertion of {}: ".format(data))
-    myTree.printHelper(root, "", True)
-    
-    # Post Order Traversal Print (Task 3)
-    print("Post Order Traversal: \n")
-    myTree.printPostOrderTraversal(root)
+    tree_list = []
+
+    while True:
+        try:
+            nums = int(input("Please enter a positive integer value: "))
+            # Program ends if user enters non-integer value
+            if nums <= 0:
+                print("Program ended.")
+                break
+            # Checks if user integer already exists in the tree
+            if nums in tree_list:
+                # Removes existing node
+                tree_list.remove(nums)
+                root = myTree.delete_node(root, nums)
+                print(f"Tree after node deletion {nums}")
+            else:
+                # Inserts new node
+                tree_list.append(nums)
+                root = myTree.insert_node(root, nums)
+                print(f"Tree after node insertion {nums}")
+
+            myTree.printHelper(root, "", True)
+        except ValueError:
+            print("Please enter a valid integer")
 
 main()
