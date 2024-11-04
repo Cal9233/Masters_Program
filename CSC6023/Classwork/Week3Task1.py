@@ -47,4 +47,8 @@ def balanced01mat():
       ans = layer(0, [], perm, 0)
       print(f"\n Balanced matrices for n = {n[i]} is {ans}")
 
+# n = 2 is 2
+# n = 4 is 90
+# n = 6 is 297,200
+# n = 8 is 450,283,905,890
 balanced01mat()
