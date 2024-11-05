@@ -14,34 +14,7 @@ def calculate_min_moves(n):
     return n
   
   # Recursive case: 2^n - 1
-  # For n disks, we need to:
-  # 1. Move n-1 disks to auxiliary peg
-  # 2. Move largest disk to target peg
-  # 3. Move n-1 disks from auxiliary to target peg
-  return (2 ** n) - 1
-
-def tower_of_hanoi(n, from_, aux_, to_):
-  """
-  Recursive function to solve Tower of Hanoi puzzle.
-  
-  Args:
-      n (int): Number of disks
-      from_ (str): Source peg
-      aux_ (str): Auxiliary peg
-      to_ (str): Target peg
-  """
-  if n == 1:
-    print(f"Move disk 1 from {from_} to {to_}.")
-    return
-  
-  # Move n-1 disks from source to auxiliary peg
-  tower_of_hanoi(n - 1, from_, to_, aux_)
-    
-  # Move the largest disk from source to target peg
-  print(f"Move disk {n} from {from_} to {to_}")
-  
-  # Move n-1 disks from auxiliary to target peg
-  tower_of_hanoi(n - 1, aux_, from_, to_)
+  return 2 * calculate_min_moves(n - 1) + 1
 
 def main():
   while True:
@@ -53,8 +26,6 @@ def main():
             
         min_moves = calculate_min_moves(n)
         print(f"\nMinimum number of moves required: {min_moves}")
-        print("\nHere are the steps to solve:")
-        tower_of_hanoi(n, "A", "B", "C")  # Fixed: Added missing 'n' parameter
         
         # Ask if user wants to try again
         again = input("\nWould you like to try another number? (y/n): ").lower()
