@@ -73,14 +73,85 @@ class Solution(object):
                 left += 1
             max_length = max(max_length, right - left + 1)
         return max_length
+    
+    def runningSum(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        # Solution 1
+        # Time Complexity: O(n) // loop through array once
+        # Space Complexity: O(n) // Creating an array and storing with sums
+        prefix = [nums[0]]
+        for i in range(1, len(nums)):
+            prefix.append(prefix[-1] + nums[i])
+        return prefix
+    
+        # Solution 2
+        # Time Complexity: O(n) // Looping through array one
+        # Space Complexity: O(1) // Modifying original array using no extra space
+        # for i in range(1, len(nums)):
+        #     nums[i] += nums[i - 1]
+        # return nums
 
+    def minStartValue(self, nums):
+        min_sum = curr_sum = 0
+        
+        # Find minimum sum
+        for num in nums:
+            curr_sum += num
+            min_sum = min(min_sum, curr_sum)
+        
+        print(f"min_sum is: {min_sum}")
+        print(f"after negating min_sum: {-min_sum}")
+        print(f"after adding 1: {-min_sum + 1}")
+        
+        return max(1, -min_sum + 1)
+    
+    def getAverages(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        # For each index i, we need to find the average of elements from (i-k) to (i+k)
+        # If we can't get k elements on either side, the result should be -1
+        # We're using integer division for the average
 
-arr1 = "()"
-arr2 = "()[]{}"
-arr3 = "(]"
-arr4 = "([])"
-arr5 = "([{}])"
-arr6 = "]})([{}])"
+        # How do we check if an index has k elements on both sides?
+        # How do we efficiently calculate the sum of elements in the range?
+        # How do we handle the division to get the average?
+        # Would you like to try writing the conditions for checking if an index has k elements on both sides? 
+        # What would be the valid range for i-k and i+k?
+        n = len(nums)
+        avgs = [-1] * n
+        if 2 * k + 1 > k:
+            return avgs
+        window_sum = sum(nums[:2 * k + 1])
+        for i in range(k, n - k):
+            if i - k >= 0 and i + k < n:
+                avgs = window_sum // (2 * k + 1)
+            if i + k + 1 < n:
+                window_sum += n[i + k + 1]
+                window_sum -= n[i - k]
+        return avgs
+    def numSubarrayProductLessThanK(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: int
+        """
+        if k <= 1:
+            return 0
+        left = ans = 0
+        curr = 1
+        for right in range(len(nums)):
+            curr *= nums[right]
+            while curr >= k:
+                curr //= nums[left]
+                left += 1
+            ans += right - left + 1
+        return ans
 
 test = Solution()
 
@@ -91,6 +162,10 @@ test = Solution()
 # print(test.isValid(arr5))
 # print(test.isValid(arr6))
 
-nums = [1,1,1,0,0,0,1,1,1,1,0]
-k = 2
-print(test.longestOnes(nums, k))
+# Test cases:
+nums1 = [-3, 2, -3, 4, 2]     # min_sum = -4
+nums2 = [1, 2, 3]             # min_sum = 0
+nums3 = [1, -2]               # min_sum = -1
+print(test.minStartValue(nums1))
+print(test.minStartValue(nums2))
+print(test.minStartValue(nums3))
