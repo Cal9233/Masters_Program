@@ -135,6 +135,22 @@ class Solution(object):
                 window_sum += n[i + k + 1]
                 window_sum -= n[i - k]
         return avgs
+        # n = len(nums)
+        # avgs = [-1] * n
+        # window_len = 2 * k + 1
+        # start = k
+        # end = n - k
+
+        # if end < start:
+        #     return avgs
+        
+        # for i in range(start, end):
+        #     for j in range(i - k, i + k):
+        #         avgs[i] += nums[j]
+        #     avgs[i] = (avgs[i] + 1) // window_len
+        
+        # return avgs
+    
     def numSubarrayProductLessThanK(self, nums, k):
         """
         :type nums: List[int]
@@ -152,6 +168,75 @@ class Solution(object):
                 left += 1
             ans += right - left + 1
         return ans
+    
+    def isSameTree(self, p, q):
+        """
+        :type p: Optional[TreeNode]
+        :type q: Optional[TreeNode]
+        :rtype: bool
+        """
+        if p is None and q is None:
+            return True
+        if p is None or q is None:
+            return False
+        return p.val == q.val and self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right) 
+    
+    def isSymmetric(self, root):
+        """
+        :type root: Optional[TreeNode]
+        :rtype: bool
+        """
+        def helper(left, right):
+            if left is None and right is None:
+                return True
+            if left is None or right is None:
+                return False
+            return left.val == right.val and helper(left.left, right.right) and helper(left.right, right.left)
+        if root is None:
+            return True
+        return helper(root.left, root.right)
+    
+    def checkIfPangram(self, sentence):
+        """
+        :type sentence: str
+        :rtype: bool
+        """
+        dic = set()
+        for i in range(len(sentence)):
+            dic.add(sentence[i])
+        return len(dic) == 26
+    
+    def missingNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        # Solution 1
+        # nums.sort()
+        # count = 0
+        # for i in range(len(nums)):
+        #     if nums[i] != count:
+        #         return count
+        #     count += 1
+        # return count
+        
+        # Solution 2
+        n = len(nums)
+        expected_sum = (n * (n + 1)) // 2 
+        actual_sum = sum(nums)
+        return expected_sum - actual_sum
+
+    def countElements(self, arr):
+        """
+        :type arr: List[int]
+        :rtype: int
+        """
+        num_set = set(arr)
+        count = 0
+        for i in arr:
+            if i + 1 in num_set:
+                count += 1
+        return count
 
 test = Solution()
 
@@ -166,6 +251,8 @@ test = Solution()
 nums1 = [-3, 2, -3, 4, 2]     # min_sum = -4
 nums2 = [1, 2, 3]             # min_sum = 0
 nums3 = [1, -2]               # min_sum = -1
-print(test.minStartValue(nums1))
-print(test.minStartValue(nums2))
-print(test.minStartValue(nums3))
+
+# print(test.minStartValue(nums1))
+# print(test.minStartValue(nums2))
+# print(test.minStartValue(nums3))
+print(test.countElements([1,2,3]))

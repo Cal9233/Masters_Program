@@ -54,8 +54,8 @@ def format_results(selected, total_value, remaining_volume):
     
     items_str = " and ".join(items_list)
     return (f"The suggested items are: {items_str} "
-           f"with a total value of ${total_value:.2f}. "
-           f"There were {remaining_volume:.2f} cubic inches left unused.")
+        f"with a total value of ${total_value:.2f}. "
+        f"There were {remaining_volume:.2f} cubic inches left unused.")  
 
 def main():
     # Setup file path

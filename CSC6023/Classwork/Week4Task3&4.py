@@ -1,4 +1,5 @@
 def knapsack(v, w, cap):
+    # array of values, array of weights
     rwv = []         # triplet ratio, weight, value, index
     for i in range(len(v)):
         rwv.append([v[i]/w[i], w[i], v[i], i])
