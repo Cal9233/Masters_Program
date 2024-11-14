@@ -1,3 +1,4 @@
+# knapsack unbounded - Greedy approach
 def knapsack(v, w, cap):
     # array of values, array of weights
     rwv = []         # triplet ratio, weight, value, index
@@ -18,14 +19,24 @@ def knapsack(v, w, cap):
     return ans           # returns the list of added items
 
 def solve_knapsack(values, weights, capacity):
-    print("\nCase: Values =", values, "Weights =", weights, "Capacity =", capacity)
+    print(f"\nCase: Distinct Items = {len(values)}, Values = {values}, Weights = {weights}, Capacity = {capacity}")
     answer = knapsack(values, weights, capacity)
     tv, tw = 0, 0
     for a in answer:
-        print(f"Item - Value: {values[a]} - Weight: {weights[a]}")
         tv += values[a]
         tw += weights[a]
-    print(f"Items: {len(answer)} - Total Value: {tv} - Total Weight: {tw}")
+    print(f"\nCase Result: Total Items = {len(answer)}, Total Value = {tv}, Total Weight = {tw}")
+
+def helper_print(arr_output, values, weights, capacity):
+    print("\n==================================================")
+    print("\n               Original Output:")
+    print("\n==================================================")
+    print(f"\n{arr_output}")
+    print("\n==================================================")
+    print("\n               Formatted Output:")
+    print("\n==================================================")
+    solve_knapsack(values, weights, capacity)
+    print("\n==================================================")
 
 # Case 1
 values1 = [5, 8, 12]
@@ -48,19 +59,29 @@ weights4 = [25, 36, 49, 64]
 capacity4 = 360
 
 # Additional Test Case
-values5 = [10, 20, 30, 40, 50]
-weights5 = [20, 30, 60, 90, 120]
-capacity5 = 150
+values5 = [30, 14, 16, 9, 20]
+weights5 = [6, 3, 4, 2, 6]
+capacity5 = 40
 
-print("\n=== Running Original Test Cases ===")
-solve_knapsack(values1, weights1, capacity1)
-solve_knapsack(values2, weights2, capacity2)
-solve_knapsack(values3, weights3, capacity3)
-solve_knapsack(values4, weights4, capacity4)
+print("\n___________________________")
+print("\n === Task 3 Test Cases === ")
+print("\n___________________________")
+# Case 1: Total Items = 83, Total Value = 415, Total Weight = 830
+# [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+helper_print(knapsack(values1, weights1, capacity1), values1, weights1, capacity1)
+# Case 2: Total Items = 32, Total Value = 352, Total Weight = 992
+# [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+helper_print(knapsack(values2, weights2, capacity2), values2, weights2, capacity2)
+# Case 3: Total Items = 10, Total Value = 50, Total Weight = 250
+# [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+helper_print(knapsack(values3, weights3, capacity3), values3, weights3, capacity3)
+# Case 4: Total Items = 14, Total Value = 70, Total Weight = 350
+# [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+helper_print(knapsack(values4, weights4, capacity4), values4, weights4, capacity4)
 
-print("\n=== Running Additional Test Case ===")
-print("Expected result: Should select 2 items:")
-print("- Item with value 20 and weight 30 (ratio: 0.67)")
-print("- Item with value 10 and weight 20 (ratio: 0.50)")
-print("Expected total: Value = 30, Weight = 50")
-solve_knapsack(values5, weights5, capacity5)
+print("\n_____________________________________")
+print("\n === Task 4 Additional Test Case === ")
+print("\n_____________________________________")
+# Additional Case: Total Items = 7, Total Value = 194, Total Weight = 39
+# [0, 0, 0, 0, 0, 0, 1]
+helper_print(knapsack(values5, weights5, capacity5), values5, weights5, capacity5)
