@@ -8,12 +8,30 @@ class Node:
     prev_data = self.previous.data if self.previous else None
     next_data = self.next.data if self.next else None
     return f"Node(data: {self.data}, previous: {prev_data}, next: {next_data})"
-  
+
+class LinkedListIterator:
+  def __init__(self, head):
+    self.trace = head
+
+  def __next__(self):
+    # maintains position in list
+    if self.trace is None:
+      raise StopIteration
+    else:
+      # return data trace is pointing
+      # advance iteration
+      data = self.trace.data
+      self.trace = self.trace.next
+      return data
+
 class LinkedList:
   def __init__(self):
     self.head = None
     self.tail = None
     self.length = 0
+
+  def __iter__(self):
+    return LinkedListIterator(self.head)
 
   def push_front(self, data):
     # added line to avoid nested nodes
@@ -150,7 +168,7 @@ class LinkedList:
       self.tail.next = None #added line
       return data
     
-  def hw_print(self):
+  def __str__(self):
     result = "["
     curr = self.head
 
@@ -161,7 +179,7 @@ class LinkedList:
         result += f"{curr.data}"
       curr = curr.next
     result += "]"
-    print(result)
+    return result
 
 # Create a linked list to test
 ll = LinkedList()
@@ -173,20 +191,23 @@ ll.push_front(3)  # List should be: 3 -> 2 -> 1
 ll.push_back(4)   # List should be: 3 -> 2 -> 1 -> 4
 
 # print list
-ll.hw_print()  # Should print: [3,2,1,4]
+print(ll)  # Should print: [3,2,1,4]
 
 ll.pop_front()
 # print list
-ll.hw_print()  # Should print: [2,1,4]
+print(ll)  # Should print: [2,1,4]
 
 ll.pop_back()
 # print list
-ll.hw_print()  # Should print: [2,1]
+print(ll)  # Should print: [2,1]
 
 ll.insert(2, 3)
 # print list
-ll.hw_print()  # Should print: [2,1,3]
+print(ll)  # Should print: [2,1,3]
 
 ll.remove(1)
 # print list
-ll.hw_print()  # Should print: [2,3]
+print(ll)  # Should print: [2,3]
+
+for item in ll:
+  print(item)

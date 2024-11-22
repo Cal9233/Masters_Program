@@ -237,6 +237,30 @@ class Solution(object):
             if i + 1 in num_set:
                 count += 1
         return count
+    
+    def calculate(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        s.replace(" ", "")
+        current_num = 0
+        stack = []
+        operation = '+'
+        for i, char in enumerate(s):
+            if char.isdigit():
+                current_num = current_num * 10 + int(char)
+            if char in '+-*/' or i == len(s) - 1:
+                if operation == '+':
+                    stack.append(current_num)
+                elif operation == '-':
+                    stack.append(-current_num)
+                elif operation == '*':
+                    stack.append(stack.pop() * current_num)
+                elif operation == '/':
+                    prev = stack.pop()
+                    if prev < 0 and current_num > 0:
+                        stack.append(-())
 
 test = Solution()
 
@@ -255,4 +279,4 @@ nums3 = [1, -2]               # min_sum = -1
 # print(test.minStartValue(nums1))
 # print(test.minStartValue(nums2))
 # print(test.minStartValue(nums3))
-print(test.countElements([1,2,3]))
+print(test.calculate(" 3+5 / 2 "))
