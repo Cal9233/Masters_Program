@@ -40,6 +40,43 @@ def merge_sort(nums, left, right):
 
   return nums
 
+# def merge_sort(arr):
+#   # base case: return arr if it has less than one (already sorted)
+#   # if not base case then divide array into two halves
+#   # recursively sort each half
+#   # merge the two sorted arrays
+#   if len(arr) <= 1:
+#     return arr
+  
+#   mid = len(arr) // 2
+#   left = merge_sort(arr[:mid])
+#   right = merge_sort(arr[mid:])
+
+#   return merge(left, right)
+
+
+# def merge(left, right):
+# # Creates a new result array
+# # Compares elements from both arrays
+# # Adds the smaller element to the result
+# # Continues until one array is exhausted
+# # Adds any remaining elements
+#   result = []
+#   i = j = 0
+#   while len(left) > i and len(right) > j:
+#     if left[i] <= right[j]:
+#       result.append(left[i])
+#       i += 1
+#     else:
+#       result.append(right[j])
+#       j += 1
+  
+#   result.extend(left[i:])
+#   result.extend(right[j:])
+
+#   return result
+    
+
 print("============================")
 print("MergeSort Algorithm")
 print("Current array: ")

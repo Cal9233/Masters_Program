@@ -60,23 +60,36 @@ class LogGenerator:
         return log
 
 
-def find_start_of_errors(log: list[LogEntry]) -> LogEntry:
-    left = 0
-    right = len(log) - 1
+# def find_start_of_errors(log: list[LogEntry]) -> LogEntry:
+#     left = 0
+#     right = len(log) - 1
 
-    while left <= right:
-        mid = (left + right) // 2
-        if log[mid].level == LogLevel.ERROR:
-            if log[mid - 1].level == LogLevel.WARN:
-                return log[mid - 1]
-            else:
-                right = mid - 1
-        elif log[mid].level == LogLevel.WARN:
-            left = mid + 1
-        elif log[mid].level == LogLevel.INFO:
-            left = mid + 1
+#     while left <= right:
+#         mid = (left + right) // 2
+#         if log[mid].level == LogLevel.ERROR:
+#             if log[mid - 1].level == LogLevel.WARN:
+#                 return log[mid - 1]
+#             else:
+#                 right = mid - 1
+#         elif log[mid].level == LogLevel.WARN:
+#             left = mid + 1
+#         elif log[mid].level == LogLevel.INFO:
+#             left = mid + 1
     
-    return -1
+#     return -1
+
+def find_start_of_errors(log: list[LogEntry]) -> LogEntry:
+    if len(log) <= 1:
+        return log[0]
+    
+    mid = len(log) // 2
+
+    if log[mid].level == LogLevel.INFO:
+        find_start_of_errors(log[mid:])
+    else:
+        find_start_of_errors(log[:mid])
+
+
 
 if __name__ == "__main__":
 
