@@ -261,6 +261,25 @@ class Solution(object):
                     prev = stack.pop()
                     if prev < 0 and current_num > 0:
                         stack.append(-())
+    def rightSideView(self, root):
+        """
+        :type root: Optional[TreeNode]
+        :rtype: List[int]
+        """
+        result = []
+        if root is None:
+            return result
+        queue = [[root, 0]]
+
+        while queue:
+            node, level = queue.pop(0)
+            if len(result) == level:
+                result.append(node.val)
+            if node.right is not None:
+                queue.append([node.right, level + 1])
+            elif node.left is not None:
+                queue.append([node.left, level + 1])
+        return result
 
 test = Solution()
 
@@ -272,11 +291,11 @@ test = Solution()
 # print(test.isValid(arr6))
 
 # Test cases:
-nums1 = [-3, 2, -3, 4, 2]     # min_sum = -4
+nums1 = [1,2,3,None,5,None,4]     # min_sum = -4
 nums2 = [1, 2, 3]             # min_sum = 0
 nums3 = [1, -2]               # min_sum = -1
 
 # print(test.minStartValue(nums1))
 # print(test.minStartValue(nums2))
 # print(test.minStartValue(nums3))
-print(test.calculate(" 3+5 / 2 "))
+print(test.rightSideView(nums1))
