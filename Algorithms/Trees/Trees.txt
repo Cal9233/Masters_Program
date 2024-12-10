@@ -21,3 +21,6 @@ Each insertion (or deletion) may require balancing
 ○ Double rotation
 ■ Right-left rotation or Left-right rotation
 ● With or without children
+
+Binary Tree has two pointers, left and right.
+Time Complexity is O(log n)
