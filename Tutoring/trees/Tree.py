@@ -1,54 +1,62 @@
-from typing import Self, Typevar
-# Reject duplicates for insert methods
-# Binary searh tree or hash can be used for concepts of map
-# Hash table is faster unless it starts to get full
-# Hash : O(1)   Tree: O(log n)
+from typing import Self, TypeVar, Optional
 
-#region (comment that can collapse)
+T = TypeVar("T")
 
-# tree of integers
+class Node[T]:
+  def __init__(self, data: T):
+    self.data : T = data
+    self.left : Optional[Node[T]] = None
+    self.right : Optional[Node[T]] = None
 
-
-# left and right pointers
-class Node:
-  def __init__(self, data):
-    self.data = data
-    self.left = None
-    self.right = None
-
-# add function
-# contains function
-class Tree:
+class Tree[T]:
   def __init__(self):
-    self.root = None
-    self.height = 0
+    self.root : Optional[Node[T]] = None
+    self.height : int = 0
 
-  def contain(self):
-    if self.root == None:
-      return
-    
-    print(self.root)
-    self.contain(self.left)
-    self.contain(self.right)
-
-  def add(self, data):
+  def _add(self, data : T) -> Self:
     if self.root is None:
-      self.root = data
-      self.left = Tree()
-      self.right = Tree()
+      self.root = Node(data)
       self.height += 1
-      print(f"{data} is successfully added.")
+      return self
+    
+    current = self.root
+    while True:
+      if data < current.data:
+        if current.left is None:
+          current.left = Node(data)
+          self.height += 1
+          break
+        current = current.left
+      elif data > current.data:
+        if current.right is None:
+          current.right = Node(data)
+          self.height += 1
+          break
+        current = current.right
+      else:
+        break
 
-    elif self.root < data:
-      self.right.add(data)
+    return self
 
-    elif self.root > data:
-      self.left.add(data)
+  def _contains(self, target : T) -> bool:
+    current = self.root
+    while current is not None:
+      if current.data == target:
+        return True
+      elif current.data > target:
+        current = current.left
+      else:
+        current = current.right
+    return False
 
-    elif self.root == data:
-      return
 
-n = Node(5)
-t = Tree()
-t.add(n)
-t.contain()
+def main():
+  tree = Tree[int]()
+  tree._add(1)._add(5)._add(10)
+  print("Tree contents:")
+  print(f"\nContains 7? {tree._contains(7)}")
+  print(f"Contains 10? {tree._contains(10)}")
+
+
+if __name__ == "__main__":
+  main()
