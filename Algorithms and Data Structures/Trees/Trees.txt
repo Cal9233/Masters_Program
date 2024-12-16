@@ -1,0 +1,159 @@
+Full Binary Tree: Every node has either 0 or 2 child nodes, i.e., left and right or no children
+● Complete Binary Tree: All levels, except possibly the last, are filled, and all nodes are as left
+as possible
+● Perfect Binary Tree: All nodes have exactly two children, and all leaf nodes are at the same
+level
+● Balanced Binary Tree: The heights of any node’s left and right subtrees differ by at most one
+● Binary Search Tree (BST): A binary tree in which: (1)The left subtree of a node contains only
+nodes with keys lesser than the node’s key. (2) The right subtree of a node contains only
+nodes with keys greater than the node’s key. (3) The left and right subtree each must also be
+a binary search tree.
+Source for definitions and images of trees on slides 26-30:
+(https://www.geeksforgeeks.org/binary-tree-data-structure/?ref=lbp)
+
+
+### AVL trees
+Each insertion (or deletion) may require balancing
+- called rotation
+○ Simple rotation
+■ Left rotation or Right rotation
+● With or without children
+○ Double rotation
+■ Right-left rotation or Left-right rotation
+● With or without children
+
+Binary Tree has two pointers, left and right.
+Time Complexity is O(log n) best case, average and worst case is O(n)
+
+
+### Depth first-search (DFS)
+Prioritize depth traversing as far down as possible in one direction until reaching node before considering other direction.
+Transverse through each node recursively, there are three types
+
+- PreOrder
+_______________________
+Visit -> Left -> Right
+        1
+      /   \
+    2       3
+  /   \    /  \
+4      5  6     7
+_______________________
+Order: 1, 2, 4, 5, 3, 6, 7
+
+code block ex:
+____________________________
+def PreOrder_DFS(node):
+  if not node:
+    return
+  
+  print(node.val)
+  PreOrder_DFS(node.left)
+  PreOrder_DFS(node.right)
+  return
+____________________________
+
+
+- InOrder
+_______________________
+Left -> Visit -> Right
+        1
+      /   \
+    2       3
+  /   \    /  \
+4      5  6     7
+_______________________
+Order: 4, 2, 5, 1, 6, 3, 7
+
+code block ex:
+____________________________
+def InOrder_DFS(node):
+  if not node:
+    return
+  
+  InOrder_DFS(node.left)
+  print(node.val)
+  InOrder_DFS(node.right)
+  return
+____________________________
+
+- PostOrder
+_______________________
+Left -> Right -> Visit 
+        1
+      /   \
+    2       3
+  /   \    /  \
+4      5  6     7
+_______________________
+Order: 4, 5, 2, 6, 7, 3, 1
+
+code block ex:
+____________________________
+def PostOrder_DFS(node):
+  if not node:
+    return
+  
+  PostOrder_DFS(node.left)
+  PostOrder_DFS(node.right)
+  print(node.val)
+  return
+____________________________
+
+Logic behind DFS
+1. Handle the base case(s). Usually, an empty tree (node = null) is a base case.
+2. Do some logic for the current node
+3. Recursively call on the current node's children
+4. Return the answer
+
+# Iterative approach uses stacks for implemenation
+
+code block ex:
+______________________________
+def maxDepth(self, root: Optional[TreeNode]) -> int:
+    if not root:
+        return 0
+    
+    stack = [(root, 1)]
+    ans = 0
+    
+    while stack:
+        node, depth = stack.pop()
+        ans = max(ans, depth)
+        if node.left:
+            stack.append((node.left, depth + 1))
+        if node.right:
+            stack.append((node.right, depth + 1))
+    
+    return ans
+
+
+#### Breath First Search (BFS)
+In DFS we prioritize depth, so distance of node from root. In BFS we traverse all nodes before moving on to the next depth.
+
+DFS vs BFS
+___________
+DFS could waste a lot of time looking for a value if that is not the goal.
+Due to searching from left subtree all the way to last level and moving on to right.
+
+
+BFS code block ex:
+____________________
+def printAllNodes(root):
+  queue = dequeue([root])
+  while queue:
+    nodes_in_current_level = len(queue)
+     # do some logic here for the current level
+
+     for _ in range(nodes_in_current_level):
+        node = queue.popleft()
+        
+        # do some logic here on the current node
+        print(node.val)
+
+        # put the next level onto the queue
+        if node.left:
+          queue.append(node.left)
+        if node.right:
+          queue.append(node.right)
+    

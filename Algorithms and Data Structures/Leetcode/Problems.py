@@ -280,6 +280,87 @@ class Solution(object):
             elif node.left is not None:
                 queue.append([node.left, level + 1])
         return result
+    
+    def deepestLeavesSum(self, root):
+        """
+        :type root: Optional[TreeNode]
+        :rtype: int
+        """
+        
+        def max_depth(root):
+            if root is None:
+                return 0
+            
+            left = max_depth(root.left)
+            right = max_depth(root.right)
+            
+            if left is None:
+                return right + 1
+            if right is None:
+                return left + 1
+            
+            return max(left, right) + 1
+        
+        # create a function that sums the depth that takes root, current depth and target depth as params
+        # if current depth is equal to the target depth you want to return the value
+        # use recursion to go to next level if it does not meet that condition
+        
+        def sum_of_depth(root, curr_dep, target_dep):
+            if root is None:
+                return 0
+            
+            if curr_dep == target_dep:
+                return root.val
+            
+            left = sum_of_depth(root.left, curr_dep + 1, target_dep)
+            right = sum_of_depth(root.right, curr_dep + 1, target_dep)
+            
+            return left + right
+        
+        level = max_depth(root)
+        return sum_of_depth(root, 1, level)
+    
+    def zigzagLevelOrder(self, root):
+        """
+        :type root: Optional[TreeNode]
+        :rtype: List[List[int]]
+        """
+        # initialize variables that represent result, current tree level, list of values in tree level
+        # and queue
+        # use BFS to traverse through tree, so use queue
+        # in queue you want to see if the levels are even or odd to reverse them
+        # update current level after ever traverse, and reset the list of values in tree level after   
+        # the traverse
+        # Don't forget to add the final values in deepest level to result
+    
+        if root is None:
+            return []
+        
+        result = []
+        curr_lvl = 0
+        curr_vals = []
+        queue = [(root, 0)]
+        
+        while queue:
+            node, level = queue.pop(0)
+            
+            if level > curr_lvl:
+                if curr_lvl % 2:
+                    curr_vals.reverse()
+                result.append(curr_vals)
+                curr_lvl = level
+                curr_vals = []
+            curr_vals.append(node.val)
+            if node.left:
+                queue.append([node.left, curr_lvl + 1])
+            if node.right:
+                queue.append([node.right, curr_lvl + 1])
+        
+        if curr_vals:
+            if curr_lvl % 2:
+                curr_vals.reverse()
+            result.append(curr_vals)
+        return result
 
 test = Solution()
 
