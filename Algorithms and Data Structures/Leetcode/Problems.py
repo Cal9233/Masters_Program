@@ -361,6 +361,34 @@ class Solution(object):
                 curr_vals.reverse()
             result.append(curr_vals)
         return result
+    
+    def rotate(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: None Do not return anything, modify nums in-place instead.
+        """
+        n = len(nums)
+        k = k % n
+        # nums[:] modifies and slices ORIGINAL list
+        nums[:] = nums[n-k:] + nums[:n-k]
+
+    def canJump(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        max_reach = 0
+
+        for i in range(len(nums)):
+            if i > max_reach:
+                return False
+            max_reach = max(max_reach, i + nums[i])
+            if max_reach >= len(nums) - 1:
+                return True
+
+        return True
+
 
 test = Solution()
 
@@ -372,11 +400,7 @@ test = Solution()
 # print(test.isValid(arr6))
 
 # Test cases:
-nums1 = [1,2,3,None,5,None,4]     # min_sum = -4
-nums2 = [1, 2, 3]             # min_sum = 0
-nums3 = [1, -2]               # min_sum = -1
-
-# print(test.minStartValue(nums1))
+nums = [2,3,1,1,4]
 # print(test.minStartValue(nums2))
 # print(test.minStartValue(nums3))
-print(test.rightSideView(nums1))
+print(test.canJump(nums))
