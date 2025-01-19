@@ -1,0 +1,11 @@
+You are on an application development team and the architect has come up with a system design which requires a custom data structure. This custom structure will require O(1) runtime to insert and remove objects from it, but also support both forward and backward iteration in the order items were added to the structure. It should support python functions len() and str() Design and implement this structure.
+
+This structure should implement the Iterable interface, and be type annotated.
+
+The string representation should appear identical to python's built in list. For example:
+[1, 2, 3, 4, 5]
+
+The structure should not allow the same object to be inserted twice.
+
+In order to validate your type annotations, turn your IDE's type checking to "strict". In visual studio code, you can do this with the setting:
+`"python.analysis.typeCheckingMode": "strict"`

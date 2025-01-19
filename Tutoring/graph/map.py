@@ -34,27 +34,27 @@ def travel(graph: dict[str, Node[str]], city_A: str, city_B: str):
 
     # BFS 
     def shortest_path(graph, city_A, city_B):
-        paths_seen = set()
+        visited = set()
         queue = Queue()
-        queue.put([city_A])
+        queue.put([graph[city_A]])
 
-        while queue:
+        while not queue.empty():
             current_path = queue.get()
-            current_city = current_path[-1]
+            current_node = current_path[-1]
 
-            if current_city.data == city_B.data:
-                return len([node.data for node in current_path])
+            if current_node.data == city_B:
+                return [node.data for node in current_path]
 
-            if current_city in paths_seen:
+            if current_node in visited:
                 continue
 
-            paths_seen.add(current_city)
+            visited.add(current_node)
 
-            for neighbor in current_city.connections:
-                if neighbor not in paths_seen:
-                    new_path = current_path + [neighbor]
-                    queue.put(new_path)
-        return None
+            for neighbor in current_node.connections:
+                if neighbor not in visited:
+                    queue.put(current_path + [neighbor])
+
+        return None 
     
     # DFS
     def longest_path(graph, city_A, city_B):
@@ -63,7 +63,7 @@ def travel(graph: dict[str, Node[str]], city_A: str, city_B: str):
 
         def dfs(node, path):
             if node.data == city_B:
-                all_paths.append(path[:])
+                all_paths.append(list(path))
                 return
             paths_visited.add(node)
             
@@ -76,7 +76,7 @@ def travel(graph: dict[str, Node[str]], city_A: str, city_B: str):
         start = graph[city_A]
         dfs(start, [start])
 
-        if all_paths:
+        if len(all_paths) > 0:
             return [node.data for node in max(all_paths, key=len)]
         return None
     
@@ -86,8 +86,6 @@ def travel(graph: dict[str, Node[str]], city_A: str, city_B: str):
     if short_path:
         print(f"Shortest path from {city_A} to {city_B}: {' -> '.join(short_path)}")
         print(f"Length: {len(short_path)} cities")
-    else:
-        print(f"No path found from {city_A} to {city_B}")
 
     if long_path:
         print(f"Longest path from {city_A} to {city_B}: {' -> '.join(long_path)}")
@@ -99,7 +97,7 @@ fileDir = "/Users/calvinmalagon/Documents/GitHub/Masters_Program/Tutoring/graph/
 
 result = reader(fileDir)
 
-for city, connected in result.items():
-    print(f"{city} is connected to: {[str(n) for n in connected.connections]}")
+# for city, connected in result.items():
+#     print(f"{city} is connected to: {[str(n) for n in connected.connections]}")
 
 travel(result, 'Austin', 'Tokyo')
