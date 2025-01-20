@@ -1,0 +1,10 @@
+Tree - inserting node (runtime depends on structure), no order, removing node (runtime depends on structure)
+Graphs - inserting node (runtime depends on structure), no order, removing node (runtime depends on structure)
+Linked Lists - inserting node (Doubly Linked list: O(1)), ordered, removing node (Beginning/End: 0(1), Middle: O(n))
+Array - inserting element (Beginning/Middle: O(n), End: O(1) unless full, O(n)), ordered, removing element (Beginning/Middle: O(n), End: O(1) unless full, O(n))
+HashTable - inserting object (O(1)), not ordered, removing object (O(1))
+Dictionary - inserting object (O(1)), not ordered, removing object (O(1))
+
+# Combining Linked Lists and Dictionary to achieve O(1) inserting and removing runtime as well as it being ordered
+
+# Key = Object itself, Value = Node

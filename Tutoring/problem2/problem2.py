@@ -2,80 +2,97 @@ from typing import Iterator, Iterable, Self
 # Sized implements __len__ into any type
 # Sequence implements __get__ method and __len__ method into any type
 
+# An iterable is any object that can return an iterator, such as lists, strings, or dictionaries.
+class Node[T]:
+    data: T
+    next: Self | None # Can't reference Node inside, so use Self
+    prev: Self | None
+
+    def __init__(self, data: T):
+        self.data = data
+        self.next = None
+        self.prev = None
+
+    def __str__(self):
+        return str(self.data)
+
 # add necessary classes
 class ItibagIterator[T](Iterator[T]):
 
 # add any necessary data to make the iterator work
-    def __init__(self, data: list[T], reverse: bool = False):
+    def __init__(self):
         # add other needed constructor params and complete constructor
-        self.data = data
-        self.index = len(data) - 1 if reverse else 0
-        self.reverse = reverse
+        pass
     
     def __next__(self) -> T:
-        #return the data and advance if there is data remaining.
+        # return the data and advance if there is data remaining.
         # if there is no data remaining, `raise StopIteration`.
-        if self.reverse:
-            if self.index < 0:
-                raise StopIteration
-            value = self.data[self.index]
-            self.index -= 1
-        else:
-            if self.index >= len(self.data):
-                raise StopIteration
-            value = self.data[self.index]
-            self.index += 1
-        return value
+        pass
 
 class Itibag[T](Iterable[T]):
 
 # add necessary data
+    head: Node[T] | None
+    tail: Node[T] | None
 
     def __init__(self):
         # perform necessary initialization
-        self.data: list[T] = []
-        self.set: set[T] = set()
+        self.head = None
+        self.tail = None
 
     def __iter__(self) -> Iterator[T]:
         # return the ItibagIterator
-        return ItibagIterator(self.data)
+        pass
     
     def __reversed__(self) -> Iterator[T]:
         # return an iterable for reverse iteration
-        return ItibagIterator(self.data, reverse = True)
+        pass
 
     def __len__(self) -> int:
         # return number of items
-        return len(self.data)
+        pass
 
     def __str__(self) -> str:
         # return a string representation
-        return f"{self.data}"
+        # iterate through list (dont use iterator object)
+        lists = []
+        if self.head is None:
+            return f"Currently empty."
+        else:
+            main_node = self.head
+            while main_node.next:
+                lists.append(main_node.data)
+                main_node = main_node.next
+
+            for node in lists:
+                print(node.data)
     
     def add(self, item: T): # O(1)
         # insert an item
-        if item not in self.data:
-            self.data.append(item)
+        # after adding ictionary check for uniqueness
+        new_node = Node(item)
+        if self.head is None:
+            self.head = new_node
+            self.tail = new_node
         else:
-            return f"Item {item} already exists in Itibag"
+            assert(self.tail is not None)
+            new_node.prev = self.tail
+            self.tail.next = new_node
+            self.tail = new_node
     
     def remove(self, item: T) -> T | None: # O(1)
         # remove an item and return it, or None if not found
-        if item in self.data:
-            self.data.remove(item)
-            self.set.remove(item)
-            return item
-        return None
+        pass
 
     def clear(self):
         # remove all items
-        if len(self.data) > 0:
-            self.data.clear()
-            self.set.clear()
-            return self
-        
-numbers = [1, 2, 3, 4, 5, 6]
+        pass
 
-i: Itibag[int] = Itibag()  # Specify type explicitly as int
-i.add(12).add(15).remove(12)
-print(i)  # Output: [15]
+
+ll = Itibag()
+ll.add(Node(5))
+ll.add(Node(15))
+ll.add(Node(52))
+ll.add(Node(4))
+ll.add(Node(9))
+print(ll)
