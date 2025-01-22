@@ -50,7 +50,16 @@ class Itibag[T](Iterable[T]):
 
     def __len__(self) -> int:
         # return number of items
-        pass
+        # Difference in runtime using int incrementation vs appending to list?
+        result = 0
+        # result = []
+        current_node = self.head
+        while current_node:
+            result += 1
+            # result.append(current_node)
+            current_node = current_node.next
+        # return len(result)
+        return result
 
     def __str__(self) -> str:
         # return a string representation
@@ -60,12 +69,11 @@ class Itibag[T](Iterable[T]):
             return f"Currently empty."
         else:
             main_node = self.head
-            while main_node.next:
-                lists.append(main_node.data)
+            while main_node:
+                lists.append(str(main_node.data))
                 main_node = main_node.next
 
-            for node in lists:
-                print(node.data)
+            return " -> ".join(lists)
     
     def add(self, item: T): # O(1)
         # insert an item
@@ -86,7 +94,15 @@ class Itibag[T](Iterable[T]):
 
     def clear(self):
         # remove all items
-        pass
+        if self.head is None:
+            return f"Linked Lists currently empty"
+        else:
+            current_node = self.head
+            while current_node:
+                current_node = current_node.next
+                self.head = None
+                self.tail = None
+
 
 
 ll = Itibag()
@@ -95,4 +111,8 @@ ll.add(Node(15))
 ll.add(Node(52))
 ll.add(Node(4))
 ll.add(Node(9))
-print(ll)
+print(f"Linked Lists: {ll}")
+print(f"Total amount (len method): {len(ll)}")
+ll.clear()
+print(f"Linked Lists: {ll}")
+print(f"Total amount (len method): {len(ll)}")
