@@ -112,16 +112,16 @@
 
 #             current_node = current_node.next
 
-#     def clear(self):
-#         # remove all items
-#         if self.head is None:
-#             return None
-#         else:
-#             current_node = self.head
-#             while current_node:
-#                 current_node = current_node.next
-#                 self.head = None
-#                 self.tail = None
+    # def clear(self):
+    #     # remove all items
+    #     if self.head is None:
+    #         return None
+    #     else:
+    #         current_node = self.head
+    #         while current_node:
+    #             current_node = current_node.next
+    #             self.head = None
+    #             self.tail = None
 
 
 
@@ -146,6 +146,7 @@
 
 
 from typing import Iterator, Iterable, Self
+from stringbuilder import StringBuilder
 # Sized implements __len__ into any type
 # Sequence implements __get__ method and __len__ method into any type
 
@@ -174,7 +175,7 @@ class ItibagIterator[T](Iterator[T]):
     def __next__(self) -> T:
         # return the data and advance if there is data remaining.
         # if there is no data remaining, `raise StopIteration`.
-        pass
+        raise NotImplemented
 
 class Itibag[T](Iterable[T]):
 
@@ -182,7 +183,7 @@ class Itibag[T](Iterable[T]):
     head: Node[T] | None
     tail: Node[T] | None
     # dictionary property in class method?
-    dictionary: dict[Iterable[T], Node[T]] = {} | {}
+    dictionary: dict[T, Node[T]]
 
     def __init__(self):
         # perform necessary initialization
@@ -192,11 +193,11 @@ class Itibag[T](Iterable[T]):
 
     def __iter__(self) -> Iterator[T]:
         # return the ItibagIterator
-        pass
+        raise NotImplemented
     
     def __reversed__(self) -> Iterator[T]:
         # return an iterable for reverse iteration
-        pass
+        raise NotImplemented
 
     def __len__(self) -> int:
         # return number of items
@@ -204,7 +205,28 @@ class Itibag[T](Iterable[T]):
 
     def __str__(self) -> str:
         # return a string representation
-        return " -> ".join(str(node.data) for node in self.dictionary.values())
+        # dictionary does not maintain order
+        if self.head is None:
+            return "[]"
+        if self.head.next is None:
+            return f"[{self.head.data}]"
+        
+        sb = StringBuilder()
+        sb.append("[")
+
+        curr_node = self.head
+
+        while curr_node is not self.tail:
+            assert(curr_node is not None) # curr_node cannot be None because head was not None and all nodes except tail have NONE None next
+            sb.append(curr_node.data)
+            sb.append(", ")
+            curr_node = curr_node.next
+        
+        assert(curr_node is not None) # curr_node is tail
+        sb.append(curr_node.data)
+
+        sb.append("]")
+        return str(sb)
     
     def add(self, item: T): # O(1)
         # insert an item
@@ -230,36 +252,22 @@ class Itibag[T](Iterable[T]):
         
         node = self.dictionary[item]
         del self.dictionary[item]
-        # if target is head
-        if node.prev is None:
+
+        if node.prev is not None:
+            node.prev.next = node.next
+        else:
             self.head = node.next
-            self.head.prev = None
+
+        if node.next is not None:
+            node.next.prev = node.prev
         else:
-            node.next.prev = node.next
-        # if target is tail
-        if node.next is None:
             self.tail = node.prev
-            self.tail.next = None
-        else:
-            node.prev.next = node.prev
+
+        return node.data
 
     def clear(self):
         # remove all items
-        return self.dictionary.clear()
-
-ll = Itibag()
-ll.add(5)
-ll.add(15)
-ll.add(52)
-ll.add(4)
-ll.add(15)
-ll.add(9)
-print(f"Linked Lists: {ll}")
-print(f"Total amount (len method): {len(ll)}")
-print("Removing Node 52")
-ll.remove(52)
-print(f"Linked Lists: {ll}")
-print(f"Total amount after remove(52) (len method): {len(ll)}")
-ll.clear()
-print(f"Linked Lists: {ll}")
-print(f"Total amount after clear (len method): {len(ll)}")
+        # clear dictionary AND linked lists
+        self.dictionary.clear()
+        self.head = None
+        self.tail = None
