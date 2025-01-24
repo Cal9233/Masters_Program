@@ -190,3 +190,15 @@ class TestProblem2(unittest.TestCase):
         bag.add(data)
 
         self.assertEqual(len(bag), 1)
+
+    def test_remove_last(self):
+        data = self.generate_testdata(2)
+        bag: Itibag[TestData] = Itibag()
+
+        for d in data:
+            bag.add(d)
+
+        bag.remove(data[0])
+        bag.remove(data[1])
+
+        self.assertEqual(len(bag), 0)
