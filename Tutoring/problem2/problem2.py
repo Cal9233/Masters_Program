@@ -34,6 +34,8 @@ class Itibag[T](Iterable[T]):
 # add necessary data
     head: Node[T] | None
     tail: Node[T] | None
+    # dictionary property in class method?
+    # dictionary: dict[Iterable[T], Node[T]] = {}
 
     def __init__(self):
         # perform necessary initialization
@@ -77,7 +79,7 @@ class Itibag[T](Iterable[T]):
     
     def add(self, item: T): # O(1)
         # insert an item
-        # after adding ictionary check for uniqueness
+        # after adding dictionary check for uniqueness
         new_node = Node(item)
         if self.head is None:
             self.head = new_node
@@ -90,12 +92,32 @@ class Itibag[T](Iterable[T]):
     
     def remove(self, item: T) -> T | None: # O(1)
         # remove an item and return it, or None if not found
-        pass
+        if self.head is None:
+            return None
+        
+        current_node = self.head
+        while current_node:
+            if current_node.data == item:
+                # if target node is head
+                if current_node.prev is None:
+                    self.head = current_node.next
+                    self.head.prev = None
+                else:
+                    current_node.prev.next = current_node.next
+                    # if target node is tail
+                if current_node.next is None:
+                    self.tail = current_node.prev
+                    self.tail.next = None
+                else:
+                    current_node.next.prev = current_node.prev
+                return current_node.data
+
+            current_node = current_node.next
 
     def clear(self):
         # remove all items
         if self.head is None:
-            return f"Linked Lists currently empty"
+            return None
         else:
             current_node = self.head
             while current_node:
@@ -106,13 +128,17 @@ class Itibag[T](Iterable[T]):
 
 
 ll = Itibag()
-ll.add(Node(5))
-ll.add(Node(15))
-ll.add(Node(52))
-ll.add(Node(4))
-ll.add(Node(9))
+ll.add(5)
+ll.add(15)
+ll.add(52)
+ll.add(4)
+ll.add(9)
 print(f"Linked Lists: {ll}")
 print(f"Total amount (len method): {len(ll)}")
+print("Removing Node 52")
+ll.remove(52)
+print(f"Linked Lists: {ll}")
+print(f"Total amount after remove(52) (len method): {len(ll)}")
 ll.clear()
 print(f"Linked Lists: {ll}")
-print(f"Total amount (len method): {len(ll)}")
+print(f"Total amount after clear (len method): {len(ll)}")
