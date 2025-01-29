@@ -21,14 +21,20 @@ class Node[T]:
 class ItibagIterator[T](Iterator[T]):
 
 # add any necessary data to make the iterator work
-    def __init__(self):
+    def __init__(self, id: int, starting_node: Node[T] | None, reverse: bool = False):
         # add other needed constructor params and complete constructor
-        pass
+        self.id = id # tracks order
+        self.current = starting_node
+        self.reverse = reverse
     
     def __next__(self) -> T:
         # return the data and advance if there is data remaining.
         # if there is no data remaining, `raise StopIteration`.
-        raise NotImplemented
+        if self.current is None:
+            raise StopIteration
+        data = self.current.data
+        self.current = self.current.prev if self.reverse is True else self.current.next
+        return data
 
 class Itibag[T](Iterable[T]):
 
@@ -46,11 +52,11 @@ class Itibag[T](Iterable[T]):
 
     def __iter__(self) -> Iterator[T]:
         # return the ItibagIterator
-        raise NotImplemented
+        return ItibagIterator(id = 1, starting_node = self.head)
     
     def __reversed__(self) -> Iterator[T]:
         # return an iterable for reverse iteration
-        raise NotImplemented
+        return ItibagIterator(id = len(self.dictionary), starting_node = self.tail, reverse = True)
 
     def __len__(self) -> int:
         # return number of items
