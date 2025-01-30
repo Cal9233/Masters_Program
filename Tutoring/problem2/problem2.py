@@ -33,7 +33,12 @@ class ItibagIterator[T](Iterator[T]):
         if self.current is None:
             raise StopIteration
         data = self.current.data
-        self.current = self.current.prev if self.reverse is True else self.current.next
+        if self.reverse is True:
+            self.current = self.current.prev
+            self.id -= 1
+        else:
+            self.current = self.current.next
+            self.id += 1
         return data
 
 class Itibag[T](Iterable[T]):
