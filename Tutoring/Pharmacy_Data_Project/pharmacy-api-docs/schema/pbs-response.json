@@ -1,0 +1,20 @@
+{
+    "$id": "https://ianw.io/api/reference/pbs/v1/pbs-request.json",
+    "$schema":"http://json-schema.org/draft-04/schema#",
+    "title":"pbs-request",
+    "type":"object",
+    "properties":{
+        "coverageClass": {
+            "type": "string",
+            "description": "Medication coverage type."
+        },
+        "copay":{
+            "type":"number",
+            "description": "Patient copay."
+        },
+        "outOfPocket":{
+            "type":"number",
+            "description": "Patient out of pocket charge."
+        }
+    }
+}

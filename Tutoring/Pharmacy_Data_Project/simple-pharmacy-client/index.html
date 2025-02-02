@@ -1,0 +1,21 @@
+<head>
+    <title>Your Online Pharmacy</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="scripts.js"></script>
+</head>
+<body>
+    <h1>Online Pharmacy</h1>
+    <div class="submission">
+        <div>Social Security Number <input type="text" id="tb_ssn"></div>
+        <div>First Name <input type="text" id="tb_fname"></div>
+        <div>Last Name <input type="text" id="tb_lname"></div>
+        <div>Medication <input type="text" id="tb_med"></div>
+        <div>Dosage <input type="text" id="tb_dos"></div>
+    </div>
+    <div class="buttonrow">
+        <button id="btn_submit" onclick="SubmitFn(this)">Submit</button>
+    </div>
+    <div class="textspace">
+        <textarea id="ta_result" class="resultbox" readonly="true" rows="3" cols="20">Results. . .</textarea>
+    </div>
+</body>

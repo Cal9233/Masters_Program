@@ -21,9 +21,8 @@ class Node[T]:
 class ItibagIterator[T](Iterator[T]):
 
 # add any necessary data to make the iterator work
-    def __init__(self, id: int, starting_node: Node[T] | None, reverse: bool = False):
+    def __init__(self, starting_node: Node[T] | None, reverse: bool = False):
         # add other needed constructor params and complete constructor
-        self.id = id # tracks order
         self.current = starting_node
         self.reverse = reverse
     
@@ -35,10 +34,8 @@ class ItibagIterator[T](Iterator[T]):
         data = self.current.data
         if self.reverse is True:
             self.current = self.current.prev
-            self.id -= 1
         else:
             self.current = self.current.next
-            self.id += 1
         return data
 
 class Itibag[T](Iterable[T]):
@@ -57,11 +54,11 @@ class Itibag[T](Iterable[T]):
 
     def __iter__(self) -> Iterator[T]:
         # return the ItibagIterator
-        return ItibagIterator(id = 1, starting_node = self.head)
+        return ItibagIterator(starting_node = self.head)
     
     def __reversed__(self) -> Iterator[T]:
         # return an iterable for reverse iteration
-        return ItibagIterator(id = len(self.dictionary), starting_node = self.tail, reverse = True)
+        return ItibagIterator(starting_node = self.tail, reverse = True)
 
     def __len__(self) -> int:
         # return number of items

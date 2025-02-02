@@ -1,0 +1,28 @@
+{
+    "$id": "https://ianw.io/api/reference/pbs/v1/pbs-request.json",
+    "$schema":"http://json-schema.org/draft-04/schema#",
+    "title":"pbs-request",
+    "type":"object",
+    "properties":{
+        "id": {
+            "type": "string",
+            "description": "Unique identifier. Usually SSN."
+        },
+        "fname": {
+            "type":"string",
+            "description": "The person's first name."
+        },
+        "lname": {
+            "type":"string",
+            "description": "The person's last name."
+        },
+        "med": {
+            "type":"string",
+            "description": "Name of the medication."
+        },
+        "dose":{
+            "type":"integer",
+            "description": "Medication dosage."
+        }
+    }
+}
