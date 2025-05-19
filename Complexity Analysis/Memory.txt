@@ -1,0 +1,26 @@
+When you create a variable it has to be stored somewhere in your computer.
+
+Memory: Foundational layer of computing where all data is stored. Bounded canvas with memory slots.
+
+Bit: Binary digit, 0 and 1, any data stored in a computer is stored as bits
+
+Byte: group of 8 bits, 00000101, 
+
+Data stored in in memory is stored as bytes and by extension bits. So your local variable that you created
+ earlier is stored as bits.
+
+
+Bytes in memory can "point" to other bytes in memory, so as to store
+    references to other data.
+
+    
+The amount of memory that a machine has is bounded, making it valuable to
+    limit how much memory an algorithm takes up.
+  
+
+
+Accessing a byte or a fixed number of bytes (like 4 bytes or 8 bytes in the
+    case of 32-bit and 64-bit integers) is an elementary
+    operation, which can be loosely treated as a single unit of operational
+    work.
+  

@@ -1,0 +1,16 @@
+Various solutions and not all are better than the other solutions.
+
+Complexity: Time Complexity and Space Complexity
+___________________________________________________
+
+
+Time                                Space
+                P
+            /   |   \
+        /       |       \
+    s1          s2      s3
+
+
+Time complexity measures how fast an algorithm runs.
+Space complexity measures how much memory or space an algorithm uses up.
+

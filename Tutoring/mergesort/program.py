@@ -55,3 +55,6 @@ print("Array after mergesort: ")
 algo = merge_sort(ar, 0, len(ar) - 1)
 print(algo)
 print("============================")
+
+s = ['abc', 'bcd', 'cbaccd']
+print(len(s))
