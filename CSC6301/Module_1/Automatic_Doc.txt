@@ -1,0 +1,52 @@
+### Importance of Documentation
+
+# Documentaion is used to understand the logic behind a running code, couple reasons to follow it:
+
+● Fix software bug (Maintenaince issue)
+● To change the software functionality (Maintenaince issue)
+● Decide using a software module (reuse issue)
+
+While maintenance issues relate to software readability, reuse issues relate to
+software specification
+● Software readability deal with software as open code
+● Software specification deal with software as encapsulated code
+
+Documentaion provides good practices for other aspects and reinenforces readability of:
+● Classes - purposes, methods, interfaces, dependencies, limitations
+● Methods - function, mutator/accessor, input and output parameters
+● Variables - type, meaning, usage, invariants
+● Constants - type, meaning, usage, impact
+● Functions - function, i/o parameters, dependencies, algorithm, limitations
+● Modules - constituents, purpose, dependencies
+● Packages - constituents, purpose, dependencies
+
+
+Depending on the language the needs for documentation may vary
+● Python is an untyped language, Java and C++ are typed languages
+● Python and C++ may use Classes and Functions, in Java everything is a class and all execution is made through class' methods
+
+Documentation is usually a tedious (repetitive) process that requires a strict discipline to keep the same standards
+● This is unsuitable for humans, but easier to automate
+○ Software documentation generators - based on a markup language
+■ normally strongly attached to a language or Integrated
+Development Environment, a.k.a. editor/debugger/runner+documenter
+
+## Python Doc
+Python language define some standards for developing documentation, it includes best practices for coding python and
+automatic generation of documentation.
+
+Basic use of PyDoc is done using command "  pydoc3 -b  "
+
+Using pydoc with a browser python -m pydoc -b (on a mac : pydoc3 -b)
+It opens a webpage on your local host with links to the documentation of the modules split in sections.
+It is also included other documentations search options, as search button, keywords, etc
+
+Python programs can be documented at several levels using docstrings
+● Module/Package
+○ A multiline comment with triple quotation at the first line of the file
+● Classes
+○ A multiline comment with triple quotation at the first line after the declaration of the class
+● Functions and methods
+○ A multiline comment with triple quotation at the first line after the definition of the function/method
+
+You can also view documentation of a library by running "python pydoc -m <name_of_library>" in the terminal

@@ -1,0 +1,37 @@
+### Chomsky Hierachy
+
+# Regular languages - Finite State Automata
+- 
+- type 3 language
+- a*b*
+
+# Context - free languages - Push Down Automata
+- type 2 language
+- a^nb^n
+
+# Context - sensitive languages - Linear Bounded Automata
+- type 1 language
+- a^nb^nc^n (counting a's and b's with a stack, but how can we track the number of c's?)
+
+# Recurively enumerable languages - Turing Machines
+- type 0 language
+- (a|b|c)* with #a = #b and < #c (it has to count a's, b's and c's all the way until the end of the word, 
+and only then check it out these numbers)
+
+
+#############################################################################################################
+
+Alan Turing defined a theoretical machine, called "a-machine", as for automatic machine, then later changed to
+"Turing Machine (TM)".
+
+A TM is a theoretical model of computation that manipulates symbols on a tape according to a set of rules.
+
+A TM consist of:
+- A tape divided into cells, one next to the other
+- A head that can read and write sumbols on the tape and move the tape left and right one cell at a time
+- A state transition table, given the current state of the machine and the symbol under the head, may the 
+machine to:
+    - Either erase or write a symbol in the tape cell under the head
+    - Move the head one cell left or one cell right
+    - Move from the current state to another one
+

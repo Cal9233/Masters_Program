@@ -2,6 +2,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "BubbleSort",
+            "request": "launch",
+            "mainClass": "BubbleSort",
+            "projectName": "Masters_Program_6475626e"
+        },
+        {
+            "type": "java",
+            "name": "Squares",
+            "request": "launch",
+            "mainClass": "Squares",
+            "projectName": "Masters_Program_6475626e"
+        },
+        {
             "name": "C/C++: g++ build and debug active file",
             "type": "cppdbg",
             "request": "launch",
