@@ -476,7 +476,7 @@ class UniversalPDFToExcelConverter:
                             date_line = next_line
                     
                     # Extract date range pattern: MM/DD/YY - MM/DD/YY
-                    date_pattern = r'(\d{1,2}/\d{1,2}/\d{2,4})\s*-\s*(\d{1,2}/\d{1,2}/\d{2,4})'
+                    date_pattern = r'^(\d{1,2}/\d{1,2})\s*(&?)\s*(.+?)\s+([-]?\d{1,}(?:,\d{3})*\.\d{2})$'
                     match = re.search(date_pattern, date_line)
                     
                     if match:
