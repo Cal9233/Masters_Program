@@ -516,8 +516,8 @@ class UniversalPDFToExcelConverter:
             
             # Look for any date range in the summary section
             date_pattern = r'(\d{1,2}/\d{1,2}/\d{2,4})\s*-\s*(\d{1,2}/\d{1,2}/\d{2,4})'
-            match = re.search(date_pattern, account_summary_section)
-            
+            match = re.search(date_pattern, date_line)
+
             if match:
                 start_date = match.group(1)
                 end_date = match.group(2)
@@ -899,14 +899,15 @@ class UniversalPDFToExcelConverter:
             pass
         
         return transactions
-    
+
     def parse_chase_transaction_line(self, line):
         """Parse individual Chase transaction line"""
         try:
             # Chase format: MM/DD [&] MERCHANT_NAME LOCATION AMOUNT
-            date_pattern = r'^(\d{1,2}/\d{1,2})\s*(&?)\s*(.+?)\s+([-]?\d{1,3}(?:,\d{3})*\.\d{2})$'
+            date_pattern = r'^(\d{1,2}/\d{1,2})\s*(&?)\s*(.+?)\s+([-]?\d{1,}(?:,\d{3})*\.\d{2})$'
             
             match = re.match(date_pattern, line)
+            
             if match:
                 date = match.group(1)
                 merchant_and_location = match.group(3).strip()
@@ -920,7 +921,7 @@ class UniversalPDFToExcelConverter:
                 
                 # Skip negative amounts (payments/credits)
                 try:
-                    amount_value = float(amount)
+                    amount_value = float(amount.replace(',', ''))  # Remove commas before parsing!
                     if amount_value <= 0:
                         return None  # Skip payments and credits
                 except ValueError:
