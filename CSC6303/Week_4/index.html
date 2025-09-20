@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!--
+  Prime Number Checker Web Application
+  
+  Description:
+    An interactive web page that determines if a user-entered number is prime.
+    The application accepts numbers between 2 and 9999 and provides immediate
+    feedback on whether the number is prime or composite.
+  
+  Features:
+    - Input validation (range 2-9999)
+    - Efficient prime number algorithm based on C++ implementation
+    - Visual feedback with color-coded results
+    - Keyboard support (Enter key submission)
+    - Responsive design
+  
+  Algorithm:
+    Based on optimized trial division method that:
+    - Handles edge cases (n ≤ 1, n ≤ 3)
+    - Checks divisibility by 2 and 3
+    - Tests only numbers of the form 6k±1 up to √n
+  
+  Author: Calvin Malagon
+  Date: 2024-09-15
+  Version: 1.0
+-->
+<html lang="en">
+<head>
+  <!-- Page metadata -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prime Checker</title>
+  <!-- External stylesheets and scripts -->
+  <link rel="stylesheet" href="./index.css">
+  <script src="./index.js"></script>
+</head>
+<body>
+  <!-- Main container for the prime checker application -->
+  <div class="container">
+    <!-- Page header -->
+    <h1>Prime Checker</h1>
+    <label for="nbr">Enter a number from 2 to 9999:</label>
+    <!-- Input section -->
+    <input type="number" id="nbr" min="2" max="9999" placeholder="Enter a number...">
+    <!-- Submit button that triggers prime checking -->
+    <button onclick="isPrime()">Submit</button>
+    <p id="outputAnswer" class="waiting">I'm waiting...</p>
+  </div>
+</body>
+</html>
